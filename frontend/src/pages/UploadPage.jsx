@@ -70,7 +70,7 @@ export default function UploadPage() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/upload/data",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/upload/data`,
         formData,
         {
           headers: {
@@ -86,11 +86,11 @@ export default function UploadPage() {
         setMessage(response.data); // Use response directly if it's a string
       }
 
-        // Clear the form fields after submission
-        setFile(null);
-        setTitle('');
-        setDescription('');
-        setFileName('');
+      // Clear the form fields after submission
+      setFile(null);
+      setTitle("");
+      setDescription("");
+      setFileName("");
     } catch (error) {
       if (error.response) {
         setMessage("Error uploading file: " + error.response.data);
