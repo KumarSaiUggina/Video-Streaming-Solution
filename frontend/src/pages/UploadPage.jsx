@@ -86,7 +86,7 @@ export default function UploadPage() {
         setMessage(response.data); // Use response directly if it's a string
       }
 
-      // Clear the form fields after submission
+      // Clear the form fields after submission and acts 
       setFile(null);
       setTitle("");
       setDescription("");
