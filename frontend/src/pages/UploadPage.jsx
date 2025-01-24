@@ -70,7 +70,7 @@ export default function UploadPage() {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/upload/data`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}api/upload/data`,
         formData,
         {
           headers: {
