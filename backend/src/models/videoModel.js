@@ -1,29 +1,43 @@
-import mongoose from 'mongoose';
-
-const videoSchema = new mongoose.Schema({
+const mongoose = require('mongoose')
+const { v4: uuidv4 } = require('uuid');
+const videoInfoSchema = new mongoose.Schema({
+  unique_id: {
+    type: String,
+    required: false,
+    unique: true,
+    index: true,
+  },
   title: {
     type: String,
     required: true,
   },
   description: {
     type: String,
-    required: true,
+    required: true, 
   },
-  filePath: {
+  path: {
     type: String,
     required: true,
   },
-  quality: {
-    type: String,
-    enum: ['360p', '480p', '720p', '1080p'],
+  size: {
+    type: Number,
     required: true,
   },
+ 
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-const Video = mongoose.model('Video', videoSchema);
+// Middleware to assign a UUID if not provided
+videoInfoSchema.pre("save", function (next) {
+  if (!this.unique_id) {
+    this.unique_id = uuidv4(); // Generate a unique UUID
+  }
+  next();
+});
 
-export default Video;
+const VideoInfo = mongoose.model("Video", videoInfoSchema);
+
+module.exports = VideoInfo
