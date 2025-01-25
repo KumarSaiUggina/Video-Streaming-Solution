@@ -1,6 +1,6 @@
-# 🎥 Video Streaming Solution
+# 🎥 Video Streaming (ABR) Service using HLS
 
-This project is a **full-stack video streaming solution** that allows users to upload, play, and stream videos with adaptive bitrate streaming capabilities. It features a modern **React.js frontend** styled with **Tailwind CSS** and an **Express.js backend** connected to a **MongoDB database**. And also used **AWS S3, AWS EC2, AWS Lambda with SQS**
+This project is a **full-stack video streaming service** that follows **adaptive bitrate streaming using http live server(HLS)** allows users to upload, play, and stream videos with adaptive bitrate streaming capabilities. It features a modern **React.js frontend** styled with **Tailwind CSS** and an **Express.js backend** connected to a **MongoDB database**. And also used **AWS S3, AWS EC2, AWS Lambda with SQS**
 
 ---
 
