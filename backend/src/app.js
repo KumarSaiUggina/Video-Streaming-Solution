@@ -9,13 +9,7 @@ const cors = require("cors");
 const app = express();
 
 // Middleware
-app.use(cors(
-  {
-    origin: 'https://video-streaming-solution-frontend.vercel.app', // Frontend origin
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type'],
-  }
-));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
