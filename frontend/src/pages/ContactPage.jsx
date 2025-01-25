@@ -33,7 +33,7 @@ export default function Contact() {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/contact/data`,
+        "https://video-streaming-solution-backend.vercel.app/api/contact/data",
         formData
       );
       console.log("Form submitted successfully:", response.data);
