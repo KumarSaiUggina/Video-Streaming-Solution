@@ -1,6 +1,7 @@
 const express = require("express");
 
 const videoRoutes = require("./routes/videoRoute");
+const contactRoutes = require("./routes/contactRoute");
 
 const { connectDB } = require("./config/db");
 const cors = require("cors");
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/upload", videoRoutes);
+app.use("/api/contact", contactRoutes);
 
 // Async function to handle database connection and start the server
 const startServer = async () => {

@@ -11,18 +11,19 @@ export default function UploadPage() {
   const [dragActive, setDragActive] = useState(false);
   const [fileName, setFileName] = useState("");
   const [isVisible, setIsVisible] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const prevMessageRef = useRef("");
 
   useEffect(() => {
-    // Only show the alert if the message has changed
+ 
     if (message !== prevMessageRef.current) {
       setIsVisible(true);
-      prevMessageRef.current = message; // Update the previous message
+      prevMessageRef.current = message; 
 
-      const timer = setTimeout(() => setIsVisible(false), 3000); // Hide alert after 3 seconds
-      return () => clearTimeout(timer); // Clean up the timeout when the effect runs again
+      const timer = setTimeout(() => setIsVisible(false), 3000); 
+      return () => clearTimeout(timer); 
     }
-  }, [message]); // This effect runs whenever the message changes
+  }, [message]); 
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -31,7 +32,7 @@ export default function UploadPage() {
 
   const handleFile = (selectedFile) => {
     if (selectedFile) {
-      const fileSize = selectedFile.size / 1024 / 1024; // Size in MB
+      const fileSize = selectedFile.size / 1024 / 1024; 
       if (fileSize > 200) {
         setMessage("File size exceeds 200MB");
         setFile(null);
@@ -46,20 +47,24 @@ export default function UploadPage() {
       }
       setFile(selectedFile);
       setFileName(selectedFile.name);
-      setMessage(""); // Clear any previous messages if file is accepted
+      setMessage(""); 
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     if (!file) {
       setMessage("Please select an MP4 video file first");
+      setIsSubmitting(false);
       return;
     } else if (!title) {
       setMessage("Enter title");
+      setIsSubmitting(false);
       return;
     } else if (!description) {
       setMessage("Enter Description");
+      setIsSubmitting(false);
       return;
     }
 
@@ -79,14 +84,14 @@ export default function UploadPage() {
         }
       );
 
-      // Ensure that response.data is a string
+    
       if (typeof response.data === "object" && response.data.message) {
-        setMessage(response.data.message); // Extract message if it's an object
+        setMessage(response.data.message); 
       } else {
-        setMessage(response.data); // Use response directly if it's a string
+        setMessage(response.data);
       }
 
-      // Clear the form fields after submission and acts 
+       
       setFile(null);
       setTitle("");
       setDescription("");
@@ -97,6 +102,8 @@ export default function UploadPage() {
       } else {
         setMessage("Error uploading file: " + error.message);
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -140,6 +147,7 @@ export default function UploadPage() {
           onDragLeave={handleDrag}
           onDragOver={handleDrag}
           onDrop={handleDrop}
+          onSubmit={handleSubmit}
         >
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-xl font-semibold text-gray-900">
@@ -248,10 +256,15 @@ export default function UploadPage() {
             </button>
             <button
               type="submit"
-              onClick={handleSubmit}
-              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Upload
+              disabled={isSubmitting}
+
+              className={`rounded-md px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+
+                isSubmitting ? 'bg-gray-400' : 'bg-indigo-600 hover:bg-indigo-500 text-white'
+
+              }`}
+              >
+              {isSubmitting ? "Uploading..." : "Upload"}
             </button>
           </div>
         </form>
