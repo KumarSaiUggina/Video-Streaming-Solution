@@ -15,15 +15,14 @@ export default function UploadPage() {
   const prevMessageRef = useRef("");
 
   useEffect(() => {
- 
     if (message !== prevMessageRef.current) {
       setIsVisible(true);
-      prevMessageRef.current = message; 
+      prevMessageRef.current = message;
 
-      const timer = setTimeout(() => setIsVisible(false), 3000); 
-      return () => clearTimeout(timer); 
+      const timer = setTimeout(() => setIsVisible(false), 3000);
+      return () => clearTimeout(timer);
     }
-  }, [message]); 
+  }, [message]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -32,7 +31,7 @@ export default function UploadPage() {
 
   const handleFile = (selectedFile) => {
     if (selectedFile) {
-      const fileSize = selectedFile.size / 1024 / 1024; 
+      const fileSize = selectedFile.size / 1024 / 1024;
       if (fileSize > 200) {
         setMessage("File size exceeds 200MB");
         setFile(null);
@@ -47,7 +46,7 @@ export default function UploadPage() {
       }
       setFile(selectedFile);
       setFileName(selectedFile.name);
-      setMessage(""); 
+      setMessage("");
     }
   };
 
@@ -75,7 +74,7 @@ export default function UploadPage() {
 
     try {
       const response = await axios.post(
-        "https://video-streaming-solution-backend.vercel.app/api/upload/data",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/upload/data`,
         formData,
         {
           headers: {
@@ -84,14 +83,12 @@ export default function UploadPage() {
         }
       );
 
-    
       if (typeof response.data === "object" && response.data.message) {
-        setMessage(response.data.message); 
+        setMessage(response.data.message);
       } else {
         setMessage(response.data);
       }
 
-       
       setFile(null);
       setTitle("");
       setDescription("");
@@ -257,13 +254,12 @@ export default function UploadPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-
               className={`rounded-md px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
-
-                isSubmitting ? 'bg-gray-400' : 'bg-indigo-600 hover:bg-indigo-500 text-white'
-
+                isSubmitting
+                  ? "bg-gray-400"
+                  : "bg-indigo-600 hover:bg-indigo-500 text-white"
               }`}
-              >
+            >
               {isSubmitting ? "Uploading..." : "Upload"}
             </button>
           </div>
