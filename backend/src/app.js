@@ -12,9 +12,8 @@ const app = express();
 app.use(cors(
   {
     origin: 'https://video-streaming-solution-frontend.vercel.app', // Frontend origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type'],
-    credentials: true,
   }
 ));
 app.use(express.json());
@@ -25,22 +24,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/upload", videoRoutes);
 app.use("/api/contact", contactRoutes);
 
-// Async function to handle database connection and start the server
-const startServer = async () => {
-  // Database connection
+// Database connection
+(async () => {
   try {
-    await connectDB(); // Wait for DB connection
+    await connectDB(); // Ensure DB is connected when the app is initialized
+    console.log("Database connected successfully");
   } catch (err) {
     console.error("Error connecting to the database:", err);
     process.exit(1); // Exit the app if DB connection fails
   }
+})();
 
-  // Start the server
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
-};
-
-
-startServer();
+// Export the app for Vercel
+module.exports = app;
